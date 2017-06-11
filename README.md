@@ -1,3 +1,4 @@
+## SelfDrivingCarND_MPCController
 
 Implementation of a MPC controller with the aim to drive a car in the Simulation environent provided by Udacity in the scope of the Self driving car NanoDegree. Starting from the current car information (position x and y, speed, steering angle and throttle) and the target trajectory points provided by the simulator, the MPC meshes all the informations in an initial state, and optimize the future actuations on throttle and steering, mimymizing the defined cost function.
 ## Repository structure
@@ -8,7 +9,7 @@ The repository is made of two folders and some files:
 4.  lake_track_waypoints.csv provides data used to make a first optimization of the controller parameters.
 5.  CMakeLists.txt and cmakepatch.txt are the configuration files used to make the system executable on windows. 
 6.  install-mac.sh and install-ubuntu.sh: scripts for mac and ubuntu provided by udacity in order to make the configuration of the OS faster (e.g. uWebSockets installation) 
-## Dependencies
+## 1. Dependencies
 * cmake >= 3.5
  * All OSes: [click here for installation instructions](https://cmake.org/install/)
 * make >= 4.1
@@ -23,25 +24,25 @@ The repository is made of two folders and some files:
   * Follow the instructions in the [uWebSockets README](https://github.com/uWebSockets/uWebSockets/blob/master/README.md) to get setup for your platform. You can download the zip of the appropriate version from the [releases page](https://github.com/uWebSockets/uWebSockets/releases). Here's a link to the [v0.13 zip](https://github.com/uWebSockets/uWebSockets/archive/v0.13.0.zip).
   * If you run OSX and have homebrew installed you can just run the ./install-mac.sh script to install this
 * Simulator. You can download these from the [project intro page](https://github.com/udacity/CarND-PID-Control-Project/releases) in the classroom.
-## Basic Build Instructions
+## 2. Basic Build Instructions
 1. Clone this repo.
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./pid`.
-## Environment details
+## 3. Environment details
 The project was developed in the Eclipse Keples environment, under the linux distribution Ubuntu 17.04.
-## Controller Skeleton
+## 4. Controller Skeleton
 The skeleton of the PID project is made by two main parts: 
 1. *main.cpp* which include all the logic for the simulator connection as well as the management of the computed actuations before the trasmission to the simulator; 
 2. MPC.h and MPC.cpp which includes the logic of the controller itself.
 The main function has the aim to manage the entire connection with the simulator and to adjust the actuations required by the MPC 
 before to transmit these to the simulator for the actuation. In the loop of the main function is also managed the communication with the simulator for the trajectories to be shownd.
-## The Model and the Optimization
+## 5. The Model and the Optimization
 The MPC model is mainly based on 2 core parts:
 1.  The Model of the system;
 2.  The cost function to be optimized.
 Both the parts are stronly influenced by the 2 parameter `N` and `d_t` which defines how far the controller should see, and how is the time between two timestamp.
-### The model
+### 5.1 The model
 The model equations are based on the Kinematic model equations. At each time stamp `t+1`, the data about the model are computed accordngly to the following equations:
 ```
 x_t+1 = x_t + v_t ∗ cos(psi_t) ∗ d_t
@@ -52,7 +53,7 @@ cte_t+1 = f(x_t) − y_t + (v_t ∗ sin(epsi_t) ∗ d_t)
 epsi_t+1 = psi_t − psi_des_t + (L_f * v_t * delta_t* d_t)
 ```
 These equations requires the knowledge of the d_t parameter, that is the time between the last timestamp and the current one.
-### The cost function
+### 5.2 The cost function
 The cost function is the core of the MPC model since is used duting the optimizaion process by the Ipopt library. The solver find the actuations that minimize the cost function, considering the variables and the actuation constraints.
 In the current MPC implementation, different elements were taken into consideration for the cost function:
 1.  the cross track error (CTE);
@@ -93,7 +94,7 @@ steering_cost_coeff = 350;
 delta_throttle_cost_coeff = 30;
 delta_steering_cost_coeff = 7000;
 ```
-## The latency inclusion
+## 6. The latency inclusion
 Latency is included in the simulator management in order to mimic the real world and the time between the actuation require and the actuation itself. 
 This delay is considered by the sistem with a sleep of 100ms
 ```c++
