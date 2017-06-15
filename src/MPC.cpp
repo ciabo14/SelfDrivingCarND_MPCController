@@ -24,8 +24,8 @@ double dt = .05;
 // This is the length from front to CoG that has a similar radius.
 const double Lf = 2.67;
 
-double ref_cte = 0;
-double ref_epsi = 0;
+//double ref_cte = 0;
+//double ref_epsi = 0;
 double ref_v = 50;   
 
 // A. Solver takes 1 vector.
@@ -100,8 +100,8 @@ class FG_eval {
 
     // Add to the cost function the error of the cte, of the epsi and of the speed
     for (int t = 0;   t < N;  t++) {
-      fg[0] += cte_cost_coeff   * CppAD::pow( vars[cte_start  + t] -  ref_cte,  2)
-      	 	 + epsi_cost_coeff  * CppAD::pow( vars[epsi_start + t] - ref_epsi,  2)
+      fg[0] += cte_cost_coeff   * CppAD::pow( vars[cte_start  + t],  2)
+      	 	 + epsi_cost_coeff  * CppAD::pow( vars[epsi_start + t],  2)
       		 + speed_cost_coeff * CppAD::pow( vars[v_start 	  + t] -    ref_v,  2) ;
     }
 
