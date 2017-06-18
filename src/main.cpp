@@ -97,13 +97,13 @@ Eigen::VectorXd ComputeStateWithLatency(double v, double steer, double throttle,
 	double delay_x = v * latency;
 	double delay_y = 0;
 	double delay_psi = -v*steer / Lf * latency;
-/*
+
 	double delay_v = v + throttle*latency;
 	double delay_cte = cte + v*sin(epsi)*latency;
 	double delay_epsi = epsi-v*steer /Lf * latency;
-*/
+
 	Eigen::VectorXd state(6);
-	state << delay_x, delay_y, delay_psi, v, cte, epsi;
+	state << delay_x, delay_y, delay_psi, delay_v, delay_cte, delay_epsi;
 	return state;
 }
 
